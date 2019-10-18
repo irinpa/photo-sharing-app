@@ -1,11 +1,78 @@
 import React, {Component} from 'react'; 
-import Post from './Post';
+import User from './User';
+import ErrorMessage from './ErrorMessage';
+import InstaService from '../services/instaservice';
 
 export default class Posts extends Component {
+
+    InstaService = new InstaService();
+
+    state = {
+        posts: [],
+        error: false
+    }
+
+    componentDidMount() {
+        this.updatePosts();
+    }
+
+    updatePosts() {
+        this.InstaService.getAllPosts()
+        .then(this.onPostsLoaded)
+        .catch(this.onError)
+    }
+
+    onPostsLoaded = (posts) => {
+        this.setState({   
+            posts: posts, //may be replaced with 'posts;' if property name == value name
+            error: false
+        })
+    }
+
+    onError = (err) => {
+        this.setState({
+            error: true
+        })
+    }
+
+    renderItems(arr) {
+        return arr.map(item => {
+            const {name, altname, photo, src, alt, descr, id} = item; //to avoid using 'item.name', 'item.photo', etc.
+
+            return (
+                <div key={id} className="post"> 
+                <User 
+                    src={photo}
+                    alt={altname}
+                    name={name}
+                    min/>
+                <img src={src} alt={alt}/>
+                <div className="post__name">
+                    {name}
+                </div>
+                <div className="post__descr">
+                    {descr}
+                </div>
+               
+            </div>
+            )
+
+        })
+    }
+
     render() {
+
+        const {error, posts} = this.state;
+
+        if (error) {
+            return <ErrorMessage/>
+        }
+
+        const items = this.renderItems(posts);
+
         return(
             <div className="left"> 
-                <Post alt="Nature" src="https://www.medicalnewstoday.com/content/images/articles/325/325466/man-walking-dog.jpg"/>
+                {items}
             </div>
         ) 
     }

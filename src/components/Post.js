@@ -7,7 +7,8 @@ export default class Post extends Component {
             <div className="post"> 
                 <User 
                     src="https://www.pureconcepts.com.mt/wp-content/uploads/2017/04/person-4.jpg"
-                    name="Elizabeth"/>
+                    name="Elizabeth"
+                    min/>
                 <img src={this.props.src} alt={this.props.alt}/>
                 <div className="post__name">
                     some post name
