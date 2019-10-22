@@ -27,6 +27,7 @@ export default class Posts extends Component {
             posts: posts, //may be replaced with 'posts;' if property name == value name
             error: false
         })
+
     }
 
     onError = (err) => {
@@ -41,17 +42,17 @@ export default class Posts extends Component {
 
             return (
                 <div key={id} className="post"> 
-                <User 
-                    src={photo}
-                    alt={altname}
-                    name={name}
-                    min/>
-                <img src={src} alt={alt}/>
-                <div className="post__name">
-                    {name}
-                </div>
-                <div className="post__descr">
-                    {descr}
+                    <User 
+                        src={photo}
+                        alt={altname}
+                        name={name}
+                        min/>
+                    <img src={src} alt={alt}/>
+                    <div className="post__name">
+                        {name}
+                    </div>
+                    <div className="post__descr">
+                        {descr}
                 </div>
                
             </div>
@@ -61,13 +62,13 @@ export default class Posts extends Component {
     }
 
     render() {
-
         const {error, posts} = this.state;
 
         if (error) {
             return <ErrorMessage/>
         }
 
+        
         const items = this.renderItems(posts);
 
         return(

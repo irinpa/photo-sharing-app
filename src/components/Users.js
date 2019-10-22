@@ -23,22 +23,49 @@ export default class Users extends Component {
   }
 
   onUsersLoaded = (users) => {
-    this.setState = {
+    this.setState({
       users,
       error: false
-    }
-    console.log('USERS', users);
+    })
+
+    console.log('users state', this.state)
+
   }
 
   onError = (err) => {
-    this.setState({
-      error: true
-  })
+      this.setState({
+        error: true
+      })
+  }
+
+  renderUsers(arr) {
+    return arr.map(item => {
+        const {id, name, photo, alt} = item; //to avoid using 'item.name', 'item.photo', etc.
+
+        return (
+          <div className="user min" key={id}>
+            <User               
+                 src={photo} 
+                 alt={alt} 
+                 name={name}
+            />
+          </div>
+        );
+    })
   }
 
   
   render() {
-    return (
+    const {error, users} = this.state;
+    console.log()
+
+    if (error) {
+        return <ErrorMessage/>
+    }
+
+    const userItems = this.renderUsers(users);
+
+    return(
       <div className="right">
         <User
           src="https://www.pureconcepts.com.mt/wp-content/uploads/2017/04/person-4.jpg"
@@ -46,14 +73,9 @@ export default class Users extends Component {
         />
 
         <div className="users__block">
-          <User
-            src="https://www.pureconcepts.com.mt/wp-content/uploads/2017/04/person-4.jpg"
-            name="Elizabeth"
-            min
-          />
-    
+          {userItems}
         </div>
       </div>
-    );
+    ) 
   }
 }
